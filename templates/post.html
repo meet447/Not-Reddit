@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Not Reddit - Post</title>
+    <!-- Add your custom styles here -->
+    <style>
+        /* Add your custom styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #15202B;
+            color: #FFFFFF;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .post {
+            margin-bottom: 20px;
+            border: 1px solid #37444D;
+            border-radius: 8px;
+            background-color: #192734;
+            padding: 10px;
+        }
+
+        .post-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .post-author {
+            font-size: 14px;
+            color: #657786;
+        }
+
+        .post-content {
+            margin-top: 10px;
+            color: #FFFFFF;
+        }
+
+        .comment {
+            margin-bottom: 10px;
+            border: 1px solid #37444D;
+            border-radius: 8px;
+            background-color: #192734;
+            padding: 10px;
+        }
+
+        .comment-author {
+            font-size: 14px;
+            color: #657786;
+        }
+
+        .comment-content {
+            margin-top: 5px;
+            color: #FFFFFF;
+        }
+
+        .comment-form {
+            margin-top: 10px;
+        }
+
+        .comment-form textarea {
+            width: 100%;
+            padding: 5px;
+            font-size: 14px;
+            background-color: #15202B;
+            color: #FFFFFF;
+            border: none;
+            border-bottom: 1px solid #657786;
+            outline: none;
+        }
+
+        .comment-form button {
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 14px;
+            background-color: #1DA1F2;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .back-link {
+            font-size: 14px;
+            color: #1DA1F2;
+            text-decoration: none;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a class="back-link" href="/home">Back to Home</a>
+        <div class="post">
+            {% if post.image_url %}
+            <h2 class="post-title">{{ post.title }}</h2>
+            <p class="post-author">Posted by: {{ post.author }}</p>
+            <img src="{{ post.image_url }}" alt="Post Image">
+            <div class="post-content">
+                {{ post.content }}
+            </div>
+            {% else %}
+            <h2 class="post-title">{{ post.title }}</h2>
+            <p class="post-author">Posted by: {{ post.author }}</p>
+            <div class="post-content">
+                {{ post.content }}
+            </div>
+            {% endif %}
+        </div>
+
+        <h3>Comments:</h3>
+        {% for comment in comments %}
+        <div class="comment">
+            <p class="comment-author">{{ comment.author }}</p>
+            <p class="comment-content">{{ comment.content }}</p>
+        </div>
+        {% endfor %}
+
+        <h3>Add Comment:</h3>
+        <form class="comment-form" action="/create_comment" method="post">
+            <input type="hidden" name="post_id" value="{{ post.id }}">
+            <textarea name="content" placeholder="Write your comment here..." rows="4" required></textarea>
+            <br>
+            <button type="submit">Add Comment</button>
+        </form>
+    </div>
+</body>
+</html>

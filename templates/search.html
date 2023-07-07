@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Not Reddit - Search Results</title>
+    <style>
+        /* Add your custom styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #15202B;
+            color: #FFFFFF;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #192734;
+            border: 1px solid #37444D;
+        }
+
+        .search-form {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .search-form input[type="text"] {
+            width: 300px;
+            padding: 8px;
+            font-size: 14px;
+            border: none;
+            border-radius: 20px;
+            outline: none;
+        }
+
+        .search-form input[type="submit"] {
+            background-color: #1DA1F2;
+            color: #FFFFFF;
+            border: none;
+            padding: 8px 16px;
+            font-size: 14px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .search-form input[type="submit"]:hover {
+            background-color: #0F7AE5;
+        }
+
+        .back-link {
+            margin-top: 20px;
+            display: block;
+            color: #1DA1F2;
+            text-decoration: none;
+        }
+
+        .navbar {
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        .navbar a {
+            color: #fff;
+            display: inline-block;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: #555;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="/home">Home</a>
+        <a href="/create">Create Post</a>
+        <a href="/create">Create Subreddit</a>
+    </div>
+
+    <div class="container">
+        <h1>Welcome to Not Reddit</h1>
+
+        <div class="search-form">
+            <h2>Search Subreddits</h2>
+            <form action="/search_subreddits" method="get">
+                <input type="text" id="search_query" name="search_query" required>
+                <input type="submit" value="Search">
+            </form>
+        </div>
+
+        {% if search_results %}
+        <h2>Search Results</h2>
+        <div class="search-results">
+            {% for subreddit in search_results %}
+            <a class="search-link" href="/sub/{{ subreddit }}">{{ subreddit }}</a>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>No search results found.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
