@@ -98,6 +98,11 @@
         .back-link:hover {
             text-decoration: underline;
         }
+
+        /* Added styles for nested comments */
+        .nested-comment {
+            margin-left: 20px;
+        }
     </style>
 </head>
 <body>
@@ -107,7 +112,7 @@
             {% if post.image_url %}
             <h2 class="post-title">{{ post.title }}</h2>
             <p class="post-author">Posted by: {{ post.author }}</p>
-            <img src="{{ post.image_url }}" alt="Post Image">
+            <img src="{{ post.image_url }}" alt="Post Image" width="500" height="600" align="center">
             <div class="post-content">
                 {{ post.content }}
             </div>
@@ -125,6 +130,45 @@
         <div class="comment">
             <p class="comment-author">{{ comment.author }}</p>
             <p class="comment-content">{{ comment.content }}</p>
+            {% if comment.comments %}
+                {% for nested_comment in comment.comments %}
+                    <div class="nested-comment">
+                        <p class="comment-author">{{ nested_comment.author }}</p>
+                        <p class="comment-content">{{ nested_comment.content }}</p>
+                    </div>
+                    <!-- Recursive call to display further nested comments -->
+                    {% for further_nested_comment in nested_comment.comments %}
+                        <div class="nested-comment">
+                            <p class="comment-author">{{ further_nested_comment.author }}</p>
+                            <p class="comment-content">{{ further_nested_comment.content }}</p>
+                        </div>
+                        <!-- Add form for nested comment reply -->
+                        <form class="comment-form" action="/create_comment" method="post">
+                            <input type="hidden" name="post_id" value="{{ post.id }}">
+                            <input type="hidden" name="parent_comment_id" value="{{ further_nested_comment.id }}">
+                            <textarea name="content" placeholder="Write your reply here..." rows="2" required></textarea>
+                            <br>
+                            <button type="submit">Reply</button>
+                        </form>
+                    {% endfor %}
+                    <!-- Add form for nested comment reply -->
+                    <form class="comment-form" action="/create_comment" method="post">
+                        <input type="hidden" name="post_id" value="{{ post.id }}">
+                        <input type="hidden" name="parent_comment_id" value="{{ nested_comment.id }}">
+                        <textarea name="content" placeholder="Write your reply here..." rows="2" required></textarea>
+                        <br>
+                        <button type="submit">Reply</button>
+                    </form>
+                {% endfor %}
+            {% endif %}
+            <!-- Add form for parent comment reply -->
+            <form class="comment-form" action="/create_comment" method="post">
+                <input type="hidden" name="post_id" value="{{ post.id }}">
+                <input type="hidden" name="parent_comment_id" value="{{ comment.id }}">
+                <textarea name="content" placeholder="Write your reply here..." rows="2" required></textarea>
+                <br>
+                <button type="submit">Reply</button>
+            </form>
         </div>
         {% endfor %}
 

@@ -1,59 +1,14 @@
 from flask import Flask, render_template, request, redirect, session
 import json
 import random
+from Definations.comments import save_comment_to_json, load_comments_from_json
+from Definations.posts import save_post_to_json, load_posts_from_json
+from Definations.subreddits import save_subreddit_to_json, load_subreddits_from_json
+from Definations.user import load_user_credentials, save_user_credentials
 
 app = Flask(__name__)
 app.secret_key = 'your-secret-key'
 
-def save_comment_to_json(comment):
-    with open('comments.json', 'a') as file:
-        json.dump(comment, file)
-        file.write('\n')
-
-def load_user_credentials():
-    with open('users.json', 'r') as file:
-        users = json.load(file)
-    return users
-
-def save_post_to_json(post):
-    with open('posts.json', 'a') as file:
-        json.dump(post, file)
-        file.write('\n')
-
-def load_posts_from_json():
-    posts = []
-    with open('posts.json', 'r') as file:
-        for line in file:
-            post = json.loads(line)
-            post['id'] = len(posts) + 1  # Assign a unique ID to each post
-            posts.append(post)
-    return posts
-
-def save_subreddit_to_json(subreddit_name):
-    with open('subreddits.json', 'a') as file:
-        json.dump(subreddit_name, file)
-        file.write('\n')
-        
-def load_subreddits_from_json():
-    subreddits = []
-    with open('subreddits.json', 'r') as file:
-        for line in file:
-            subreddit = json.loads(line)
-            subreddits.append(subreddit)
-    return subreddits
-
-def save_user_credentials(users):
-    with open('users.json', 'w') as file:
-        json.dump(users, file)
-        
-def load_comments_from_json():
-    comments = []
-    with open('comments.json', 'r') as file:
-        for line in file:
-            comment = json.loads(line)
-            comments.append(comment)
-    return comments
-        
 @app.route('/')
 def basic():
     return redirect("/home")
@@ -193,4 +148,4 @@ def like_post():
     return redirect('/home')
 
 
-app.run(debug=True)
+app.run(host='0.0.0.0')
