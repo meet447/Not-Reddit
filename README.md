@@ -43,7 +43,7 @@ flask run
 
 5. Open your web browser and visit http://localhost:5000 to access the application.
 
-#File Structure
+# File Structure
 
 ```python
 ├── app.py
