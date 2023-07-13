@@ -21,7 +21,7 @@ def main(page: ft.Page):
                         content=ft.Column(
                             [
                                 ft.ListTile(
-                                    leading=ft.Icon(ft.Image(src=image)),
+                                    leading=ft.Icon(ft.Image),
                                     title=ft.Text(title),
                                     subtitle=ft.Text(
                                         content,
