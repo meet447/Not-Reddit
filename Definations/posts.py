@@ -6,7 +6,6 @@ def save_post_to_json(post):
         file.write('\n')
         
         
-
 def load_posts_from_json():
     posts = []
     with open('posts.json', 'r') as file:

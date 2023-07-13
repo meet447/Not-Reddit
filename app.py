@@ -7,7 +7,6 @@ from Definations.subreddits import save_subreddit_to_json, load_subreddits_from_
 from Definations.user import load_user_credentials, save_user_credentials
 
 app = Flask(__name__)
-app.secret_key = 'your-secret-key'
 
 @app.route('/')
 def basic():
@@ -69,6 +68,7 @@ def index():
 
 @app.route('/create_post', methods=['POST'])
 def create_post():
+    
     # Retrieve form data
     title = request.form.get('title')
     author = session['username'] if 'username' in session else 'Anonymous'
@@ -128,7 +128,6 @@ def homepage():
     posts = load_posts_from_json()
     random_posts = random.sample(posts, min(10, len(posts)))  # Get a random subset of posts
     return render_template("home.html", random_posts=random_posts)
-
     
 @app.route("/sub/<id>")
 def sub(id):
@@ -146,6 +145,5 @@ def like_post():
             break
     save_post_to_json(posts)
     return redirect('/home')
-
 
 app.run(host='0.0.0.0')
